@@ -174,7 +174,7 @@ var CartRoute = Route.extend({
       },
       'action:checkout': function () {
         var billing = this.order.cart.findWhere({type: 'billing'});
-        if (!billing.attributes['$valid']) {
+        if (billing && !billing.attributes['$valid']) {
           Radio.trigger('global', 'error', {
             status: polyglot.t('titles.billing_error'),
             message: polyglot.t('messages.billing_mandatory')

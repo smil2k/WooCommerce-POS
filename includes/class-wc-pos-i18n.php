@@ -394,6 +394,8 @@ class WC_POS_i18n {
         /* translators: woocommerce */
         'error'       => __( 'Sorry, there has been an error.', 'woocommerce' ),
         /* translators: woocommerce */
+        'receipt-error'       => __( 'Receipt was not created.', 'woocommerce' ),
+        /* translators: woocommerce */
         'billing_mandatory'       => __( 'Not all mandatory fields are filled.', 'woocommerce' ),
         /* translators: woocommerce */
         'loading'     => __( 'Loading ...' ),

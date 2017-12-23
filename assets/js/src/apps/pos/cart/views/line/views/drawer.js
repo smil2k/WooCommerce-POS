@@ -88,6 +88,20 @@ module.exports = FormView.extend({
       }
     }
 
+    var defaults = el.find('[id^=billing_]');
+    var recalc=false;
+    for ( var i=0; i<defaults.length; i++ ) {
+      var input = defaults.get(i);
+      if ( this.model.attributes[input.id] !== input.value) {
+        this.model.save(input.id, input.value);
+        recalc = true;
+      }
+    }
+
+    if ( recalc ) {
+      this.calculateMandatory();
+    }
+
     this.$el.hide().slideDown(250);
   },
 

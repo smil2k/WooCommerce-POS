@@ -119,10 +119,27 @@ var ReceiptRoute = Route.extend({
   },
 
   print: function(){
-    Radio.request('print', 'print', {
-      template: 'receipt',
-      model: this.order
-    });
+    if (this.order.attributes.printMode === 'pdf') {
+      if (this.order.attributes.printURL === '') {
+        Radio.trigger('global', 'error', {
+          status: polyglot.t('messages.error'),
+          message: polyglot.t('messages.receipt-error')
+        });
+      } else {
+        var dn = $('#download');
+
+        if (dn.length === 0) {
+          $('body').append('<iframe style="display:none" id="download"></iframe>');
+          dn = $('#download');
+        }
+        dn.prop('src', this.order.attributes.printURL);
+      }
+    } else {
+      Radio.request('print', 'print', {
+        template: 'receipt',
+        model: this.order
+      });
+    }
   },
 
   email: function(){
