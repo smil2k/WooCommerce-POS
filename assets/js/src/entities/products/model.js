@@ -52,9 +52,7 @@ module.exports = DualModel.extend({
    * @param {Function} callback
    */
   matchMaker: function(tokens, methods, callback){
-
-    var match = _.all(tokens, function(token){
-
+    return _.all(tokens, function(token){
       // barcode
       if( token.type === 'prefix' && token.prefix === 'barcode' ){
         if(token.query){ return this.barcodeMatch(token.query); }
@@ -66,15 +64,17 @@ module.exports = DualModel.extend({
         return methods.prefix(token, this);
       }
 
+      var res = false;
+      this.get('categories').forEach(function (x) {
+        res |= methods._partialString(x.name, token.query.toLowerCase());
+      });
+
+      if ( !res ) {
+          res = callback([token], this);
+      }
+
+      return res;
     }, this);
-
-    //if(match){
-    //  return match;
-    //}
-
-    // the original matchMaker
-    return match ? match : callback(tokens, this);
-
   },
 
   barcodeMatch: function(barcode){
